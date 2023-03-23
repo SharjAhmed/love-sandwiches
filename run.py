@@ -1,6 +1,5 @@
 import gspread
 from google.oauth2.service_account import Credentials
-from pprint import pprint
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -26,7 +25,7 @@ def get_sales_data():
         print("Data should be six numbers, seperated by commas.")
         print("Example: 10,20,30,40,50,60\n")
 
-        data_str = input("Enter your data here: ")
+        data_str = input("Enter your data here:\n")
 
         sales_data = data_str.split(",")
 
@@ -56,20 +55,6 @@ def validate_data(values):
     return True
 
 
-#Refactored into single function below
-
-#def update_sales_worksheet(data):
-#    print("Updating sales worksheet...\n")
-#    sales_worksheet = SHEET.worksheet("sales")
-#    sales_worksheet.append_row(data)
-#    print("Sales worksheet updated successfully.\n")
-
-#def update_surplus_worksheet(data):
-#    print("Updating surplus worksheet...\n")
-#    surplus_worksheet = SHEET.worksheet("surplus")
-#    surplus_worksheet.append_row(data)
-#    print("Surplus worksheet updated successfully.\n")
-
 def update_worksheet(data, worksheet):
     """
     Receives a ist of integers to be inserted into a woksheet
@@ -79,6 +64,7 @@ def update_worksheet(data, worksheet):
     worksheet_to_update = SHEET.worksheet(worksheet)
     worksheet_to_update.append_row(data)
     print(f"{worksheet} worksheet updated successfully\n")
+
 
 def calculate_surplus_data(sales_row):
     """
@@ -108,13 +94,13 @@ def get_last_5_entries_sales():
     """
     sales = SHEET.worksheet("sales")
 
-
     columns = []
     for ind in range(1, 7):
         column = sales.col_values(ind)
         columns.append(column[-5:])
 
     return columns
+
 
 def calculate_stock_data(data):
     """
@@ -130,6 +116,7 @@ def calculate_stock_data(data):
         new_stock_data.append(round(stock_num))
 
     return new_stock_data
+
 
 def main():
     """
